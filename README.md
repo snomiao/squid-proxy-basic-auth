@@ -1,4 +1,3 @@
-
 # Basic Authentication Squid Docker
 
 Minimal docker image with [Squid] that only proxies authenticated requests and (optionally) only to certain domains.
@@ -13,17 +12,27 @@ docker build -t squid-auth:1.0 .
 
 Create the new container from the squid-auth:1.0 image
 
-```
-docker run -d -e PROXY_USERNAME=doug.finley -e PROXY_PASSWORD=password -p 3128:3128 squid-auth:1.0
+```sh
+# generate your username and password
+USERNAME=user
+PASSWORD=$(openssl rand -hex 16)
+
+# run your instance
+docker run -d --name squid -e PROXY_USERNAME=$USERNAME -e PROXY_PASSWORD=$PASSWORD -p 3128:3128 snomiao/squid-auth
+
+# When accessing the proxy, proxy user will be ```PROXY_USERNAME```, and password will be whatever you set in ```PROXY_PASSWORD```
+
+HTTP_PROXY="http://$USERNAME:$PASSWORD@localhost:3128"
+
+echo === test with
+echo curl -x $HTTP_PROXY https://ifconfig.me
+echo ===
+echo
+
+curl -x $HTTP_PROXY https://ifconfig.me
 ```
 
-When accessing the proxy, proxy user will be ```PROXY_USERNAME```, and password will be whatever you set in ```PROXY_PASSWORD```
 
-For Example
-
-```
-curl --proxy-basic --proxy-user doug.finley:password --proxy http://127.0.0.1:3128 http://www.google.com
-```
 
 License
 ----

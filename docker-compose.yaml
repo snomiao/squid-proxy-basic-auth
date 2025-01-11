@@ -1,0 +1,6 @@
+services:
+  squid-auth:
+    image: snomiao/squid-auth
+    build: .
+    ports:
+      - 3128:3128/tcp

@@ -33,6 +33,11 @@ fi
 
 /usr/sbin/squid -z
 
+apt-get install psmisc
+# killall squid
+
+/usr/sbin/squid -N -d 1
+
 if [[ "${PROXY_DEBUG:-x}" != "x" ]]; then
 	/usr/sbin/squid -N -d 1
 else
