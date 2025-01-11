@@ -7,7 +7,7 @@ Minimal docker image with [Squid] that only proxies authenticated requests and (
 Build the Docker Image
 
 ```
-docker build -t squid-auth:1.0 .
+docker compose build
 ```
 
 Create the new container from the squid-auth:1.0 image
